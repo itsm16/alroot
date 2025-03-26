@@ -3,11 +3,19 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import bcryptjs, { hash } from 'bcryptjs'
 import z from 'zod';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup } from '../store/features/userSlice';
 
 function Signup() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [createErr, setCreateErr] = useState(false);
-    const navigate = useNavigate();
+    const store = useSelector(state => state.user.user);
+    const currentUser = store.name;
+    // console.log("cu",currentUser);
+    currentUser !== null && currentUser ? navigate("/") : ""
+
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
     // const user = JSON.parse(storedUser);
 
@@ -33,6 +41,7 @@ function Signup() {
 
         localStorage.setItem("localUser", JSON.stringify({name : data.name, email: data.email, password: hashedPassword}))
         localStorage.setItem("current", JSON.stringify({name : data.name, email: data.email}))
+        dispatch(signup({ name: data.name, email: data.email }));
 
         setCreateErr(false);
         setError(false);

@@ -9,6 +9,15 @@ export const userSlice = createSlice({
         }
     },
     reducers: {
+        signup: (state, action)=>{
+            const payload = action.payload;
+
+            state.user.name = payload.name;
+            state.user.email = payload.email;
+            const data = { name: payload.name, email: payload.email }
+            const currentUser = localStorage.setItem("current", JSON.stringify(data))
+            console.log("red", data)
+        },
         login: (state, action) => {
             const payload = action.payload;
 
@@ -40,6 +49,6 @@ export const userSlice = createSlice({
 
 })
 
-export const { login, persistLogin, logout, rmAccount } = userSlice.actions;
+export const { login, persistLogin, logout, rmAccount, signup } = userSlice.actions;
 
 export default userSlice.reducer;

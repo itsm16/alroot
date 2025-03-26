@@ -7,19 +7,19 @@ import bcryptjs from 'bcryptjs'
 import { login } from '../store/features/userSlice';
 
 function Login() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [notFound, setNotFound] = useState(false);
     const [error, setError] = useState(false);
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
 
     const localStorageUser = localStorage.getItem("localUser")
     const localUser = JSON.parse(localStorageUser);
-    const store = useSelector(state => state.user.user)
-    // const storeUser = store;
-    const dispatch = useDispatch();
-    // localUser && console.log(localUser.password)
-    console.log("stored", store)
+    const store = useSelector(state => state.user.user);
+    const currentUser = store.name;
+    // console.log("cu",currentUser);
+    currentUser !== null && currentUser ? navigate("/") : ""
 
-    const navigate = useNavigate();
 
     const schema = z.object({
         email: z.string().email({ message: "Enter a valid email" }),
@@ -34,21 +34,21 @@ function Login() {
             return
         }
 
-        if (!localUser){
+        if (!localUser) {
             setNotFound(true)
             console.log("Not found")
             return
         }
 
         const passwordCheck = await bcryptjs.compare(data.password, localUser.password)
-        if(!passwordCheck){
+        if (!passwordCheck) {
             setNotFound(true)
             console.log("Not found")
             return
         }
 
         console.log("Found")
-        dispatch(login({name: localUser.name, email: localUser.email}));
+        dispatch(login({ name: localUser.name, email: localUser.email }));
 
         setNotFound(false);
         setError(false);
