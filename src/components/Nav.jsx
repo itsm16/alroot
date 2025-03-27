@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout, rmAccount } from '../store/features/userSlice';
 import { setSidebar } from '../store/features/uiSlice';
 import { useNavigate } from 'react-router';
+import { LuMenu } from 'react-icons/lu';
 
 function Nav() {
   const store = useSelector(state => state.user.user);
@@ -17,15 +18,17 @@ function Nav() {
 
   function deleteAcc() {
     dispatch(rmAccount());
-    navigate("/login");
+    navigate("/signup");
   }
 
   return (
     <div className='h-[80px] flex items-center top-0 justify-center md:px-[150px] sticky'>
       <div className='md:w-[90%] w-[94%] border-white/10 border rounded-xl bg-gray-200/10 backdrop-blur-xs flex justify-between px-12 h-[80%] mt-2 items-center'>
-        <div 
-        onClick={()=>dispatch(setSidebar())}
-        className='cursor-pointer text-xl'>Logo</div>
+        <div className='flex items-center gap-2 md:gap-5'>
+          <div
+            onClick={() => dispatch(setSidebar())}><LuMenu size={23}/></div>
+          <div className='cursor-pointer text-xl'>Logo</div>
+        </div>
         {store.name !== null ?
           <div tabIndex={0} className='dropdown dropdown-start dropdown-bottom dropdown-end w-11 h-11 border-white/10 rounded-full border'>
             <div role='button' className='w-full h-full cursor-pointer rounded-full bg-white text-black flex items-center justify-center font-semibold'>

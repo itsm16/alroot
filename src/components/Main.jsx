@@ -73,13 +73,14 @@ function Main() {
         ))}
       </div>
 
+
       {totalPages > 1 && (
         <div className="mt-6 flex gap-3">
           {pageNumbers.map((page) => (
             <button
               key={page}
               className={`px-4 py-2 rounded-md border border-black ${
-                currentPage === page ? "bg-black text-white" : "bg-white text-black"
+                currentPage === page ? "bg-black text-white border border-white" : "bg-white text-black"
               }`}
               onClick={() => setCurrentPage(page)}
             >
